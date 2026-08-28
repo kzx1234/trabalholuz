@@ -3,224 +3,649 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Luz em Nossa Vida</title>
+    <title>A Luz em Nossa Vida • Experiências Interativas</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
         :root {
-            --bg-color: #121212;
-            --text-color: #f0f0f0;
-            --card-bg: #1e1e1e;
-            --accent-color: #ffca28;
+            --bg-color: #0e0e0e;
+            --text-color: #f2f2f2;
+            --card-bg: #1a1a1a;
+            --accent: #fdd835;
+            --accent-glow: #ffea70;
+            --border-radius: 20px;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        h1 {
-            margin-bottom: 10px;
+            padding: 20px 24px 40px;
+            transition: background 0.2s;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
+        /* cabeçalho */
+        .hero {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fdd835, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* cartões */
         .card {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border-radius: var(--border-radius);
+            padding: 24px 26px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            border: 1px solid #2c2c2c;
+            transition: transform 0.1s ease;
         }
 
-        /* Interação 1: Lâmpada */
-        .interactive-room {
-            text-align: center;
-            padding: 30px;
-            border-radius: 8px;
-            background-color: #000;
-            transition: background-color 0.5s;
+        .card h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            font-size: 1.7rem;
+            margin-top: 0;
+            margin-bottom: 14px;
+            border-left: 5px solid var(--accent);
+            padding-left: 16px;
         }
 
-        .bulb {
-            font-size: 80px;
-            filter: grayscale(100%);
-            transition: filter 0.3s, transform 0.2s;
-            display: inline-block;
+        .card h2 i {
+            font-size: 1.8rem;
         }
 
-        .bulb.on {
-            filter: grayscale(0%) drop-shadow(0 0 35px #ffeb3b);
-        }
-
-        button {
-            background-color: var(--accent-color);
-            border: none;
-            color: #000;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.1s;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        /* Interação 2: Dimmer */
-        .slider-container {
+        /* ---------- INTERAÇÃO 1: interruptor com efeito de cômodo ---------- */
+        .room-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
         }
 
-        input[type="range"] {
-            width: 80%;
+        .room-scene {
+            width: 100%;
+            max-width: 500px;
+            height: 200px;
+            background-color: #0f0f0f;
+            border-radius: 40px 40px 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.4s, box-shadow 0.4s;
+            box-shadow: inset 0 0 30px #00000088;
+            position: relative;
+            border: 1px solid #333;
+        }
+
+        .room-scene.lit {
+            background-color: #f7e9b0;
+            box-shadow: 0 0 60px #ffdd77, inset 0 0 30px #fff3c9;
+        }
+
+        .bulb-icon {
+            font-size: 90px;
+            line-height: 1;
+            filter: grayscale(1) brightness(0.3);
+            transition: filter 0.3s, transform 0.2s;
+            text-shadow: none;
+        }
+
+        .room-scene.lit .bulb-icon {
+            filter: grayscale(0) drop-shadow(0 0 35px #ffea70);
+            transform: scale(1.02);
+        }
+
+        .room-scene .furniture {
+            position: absolute;
+            bottom: 10px;
+            font-size: 28px;
+            opacity: 0.1;
+            transition: opacity 0.4s;
+        }
+
+        .room-scene.lit .furniture {
+            opacity: 0.6;
+        }
+
+        .switch-panel {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .switch-btn {
+            background: #2a2a2a;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            font-weight: 600;
+            border-radius: 60px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch-btn:hover {
+            background: #3a3a3a;
+            transform: scale(0.97);
+        }
+
+        .switch-btn.on {
+            background: var(--accent);
+            color: #111;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px #fdd83580;
+        }
+
+        /* ---------- INTERAÇÃO 2: dimmer com texto e ícone ---------- */
+        .dimmer-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dimmer-box {
+            width: 100%;
+            height: 120px;
+            border-radius: 30px;
+            background-color: #000;
+            border: 1px solid #3a3a3a;
+            transition: background-color 0.08s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: rgba(255,255,255,0.1);
+        }
+
+        .dimmer-box span {
+            transition: color 0.2s;
+        }
+
+        .dimmer-controls {
+            display: flex;
+            width: 100%;
+            max-width: 400px;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .dimmer-controls input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: #333;
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .dimmer-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid #222;
+        }
+
+        .dimmer-value {
+            min-width: 70px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* ---------- INTERAÇÃO 3: RGB com preview em formato de lâmpada ---------- */
+        .rgb-studio {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rgb-sliders {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rgb-sliders label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .rgb-sliders input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: #333;
+            border-radius: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .rgb-sliders input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #222;
             cursor: pointer;
         }
 
-        .light-box {
+        .rgb-sliders label:nth-child(1) input[type="range"]::-webkit-slider-thumb { background: #ff3b3b; }
+        .rgb-sliders label:nth-child(2) input[type="range"]::-webkit-slider-thumb { background: #3bff3b; }
+        .rgb-sliders label:nth-child(3) input[type="range"]::-webkit-slider-thumb { background: #3b3bff; }
+
+        .rgb-preview-sphere {
             width: 100%;
-            height: 100px;
-            border-radius: 8px;
-            background-color: rgb(0,0,0);
-            border: 1px solid #444;
-            transition: background-color 0.1s;
+            height: 140px;
+            border-radius: 100px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 0 40px rgba(255,255,255,0.2);
+            transition: background-color 0.05s, box-shadow 0.2s;
+            border: 1px solid #3a3a3a;
+            margin-top: 6px;
         }
 
-        /* Interação 3: Cores RGB */
-        .rgb-controls {
+        .rgb-hex {
+            font-family: monospace;
+            font-size: 1.2rem;
+            background: #0e0e0e;
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            border: 1px solid #2a2a2a;
+        }
+
+        /* ---------- INTERAÇÃO 4: prisma / refração (simulação de espectro) ---------- */
+        .prisma-area {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            align-items: center;
+            gap: 16px;
         }
 
-        .rgb-preview {
+        .prisma-box {
             width: 100%;
-            height: 120px;
-            border-radius: 8px;
-            background-color: rgb(255, 255, 255);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            height: 100px;
+            background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff00ff);
+            border-radius: 30px;
+            opacity: 0.7;
+            transition: transform 0.3s;
+            border: 1px solid #444;
         }
 
-        footer {
-            text-align: center;
-            font-size: 0.9em;
-            opacity: 0.7;
+        .prisma-box:hover {
+            transform: scale(1.01);
+            opacity: 1;
+        }
+
+        .prisma-btn {
+            background: #2a2a2a;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            border-radius: 60px;
+            font-weight: 500;
+            border: 1px solid #555;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .prisma-btn:hover {
+            background: #3a3a3a;
+            box-shadow: 0 0 20px #fdd83540;
+        }
+
+        /* ---------- INTERAÇÃO 5: luz na fotossíntese (animação) ---------- */
+        .photosynthesis {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            background: #1e2a1e;
+            border-radius: 60px;
+            padding: 20px 20px;
+            border: 1px solid #3a5a3a;
+        }
+
+        .plant {
+            font-size: 4.2rem;
+            filter: grayscale(0.4);
+            transition: filter 0.4s, transform 0.3s;
+        }
+
+        .plant.active {
+            filter: grayscale(0) drop-shadow(0 0 25px #7bed7b);
+            transform: scale(1.05);
+        }
+
+        .sun-icon {
+            font-size: 4rem;
+            transition: transform 0.8s ease;
+        }
+
+        .sun-icon.spin {
+            animation: spinGlow 2s linear infinite;
+        }
+
+        @keyframes spinGlow {
+            0% { transform: rotate(0deg) scale(1); filter: brightness(1); }
+            50% { filter: brightness(1.7); }
+            100% { transform: rotate(360deg) scale(1); filter: brightness(1); }
+        }
+
+        .foto-btn {
+            background: #3a6a3a;
+            border: none;
+            color: white;
+            padding: 10px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .foto-btn:hover {
+            background: #4f8a4f;
+            box-shadow: 0 0 30px #7bed7b60;
+        }
+
+        /* footer */
+        .footer {
             margin-top: 40px;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+            padding-top: 24px;
+        }
+
+        /* utilitários */
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #2a2a2a;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            border: 1px solid #3a3a3a;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.3rem; }
+            .card { padding: 18px; }
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <header>
-            <h1>A Luz em Nossa Vida</h1>
-            <p>Explore como a energia luminosa transforma o nosso dia a dia.</p>
-        </header>
-
-        <div class="card">
-            <h2>O que é a Luz?</h2>
-            <p>A luz é uma forma de radiação eletromagnética visível ao olho humano. Ela viaja a incríveis <strong>300.000 km/s</strong> no vácuo e é a principal responsável por permitir que enxerguemos o mundo ao nosso redor, além de mover processos vitais como a fotossíntese nas plantas.</p>
-        </div>
-
-        <div class="card">
-            <h2>Laboratório 1: O Interruptor</h2>
-            <p>A invenção da luz elétrica mudou a história da humanidade. Clique no botão para acender ou apagar o ambiente abaixo:</p>
-            <div class="interactive-room" id="room">
-                <div class="bulb" id="bulb">💡</div>
-            </div>
-            <div style="text-align: center;">
-                <button onclick="toggleLight()">Ligar / Desligar</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Laboratório 2: Intensidade Luminosa</h2>
-            <p>A quantidade de luz afeta diretamente nossa percepção e conforto visual. Ajuste o controle abaixo para alterar o nível de iluminação:</p>
-            <div class="slider-container">
-                <div class="light-box" id="dimmerBox"></div>
-                <input type="range" id="brightness" min="0" max="100" value="0" oninput="adjustBrightness(this.value)">
-                <span id="brightnessValue">Intensidade: 0%</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Laboratório 3: A Física das Cores (RGB)</h2>
-            <p>A luz branca do Sol é a soma de todas as cores. Nas telas de computadores e TVs, usamos a mistura de três cores primárias de luz: Red (Vermelho), Green (Verde) e Blue (Azul).</p>
-            <div class="rgb-controls">
-                <label>Vermelho: <input type="range" id="red" min="0" max="255" value="255" oninput="updateRGB()"></label>
-                <label>Verde: <input type="range" id="green" min="0" max="255" value="255" oninput="updateRGB()"></label>
-                <label>Azul: <input type="range" id="blue" min="0" max="255" value="255" oninput="updateRGB()"></label>
-            </div>
-            <div class="rgb-preview" id="rgbBox"></div>
-        </div>
-
-        <div class="card">
-            <h2>A Luz na Tecnologia</h2>
-            <ul>
-                <li><strong>Fibras Ópticas:</strong> Transmitem dados de internet na velocidade da luz por fios de vidro.</li>
-                <li><strong>Painéis Solares:</strong> Convertem a luz do Sol diretamente em energia elétrica limpa.</li>
-                <li><strong>Medicina:</strong> Lasers de luz são usados em cirurgias de precisão e tratamentos de pele.</li>
-            </ul>
-        </div>
-
-        <footer>
-            <p>Projeto criado para o GitHub Pages — A Ciência da Luz</p>
-        </footer>
+<div class="container">
+    <div class="hero">
+        <h1>✦ A Luz em Nossa Vida ✦</h1>
+        <p>Interações para sentir, ver e entender a energia que ilumina tudo.</p>
     </div>
 
-    <script>
-        // Função do Interruptor (Interação 1)
-        function toggleLight() {
-            const bulb = id = document.getElementById('bulb');
-            const room = document.getElementById('room');
-            bulb.classList.toggle('on');
-            
-            if (bulb.classList.contains('on')) {
-                room.style.backgroundColor = '#4a4a1a';
-            } else {
-                room.style.backgroundColor = '#000000';
+    <!-- CARD 1: O interruptor (com cenário) -->
+    <div class="card">
+        <h2><span>💡</span> Interruptor & Cômodo</h2>
+        <div class="room-container">
+            <div class="room-scene" id="roomScene">
+                <span class="bulb-icon" id="bulbIcon">💡</span>
+                <span class="furniture">🛋️ 📺</span>
+            </div>
+            <div class="switch-panel">
+                <button class="switch-btn" id="switchBtn" onclick="toggleRoom()">🔘 Ligar</button>
+                <button class="switch-btn" onclick="resetRoom()">↺ Apagar</button>
+            </div>
+            <p style="font-size:0.9rem; opacity:0.7;">A luz transforma o ambiente, revelando cores e detalhes.</p>
+        </div>
+    </div>
+
+    <!-- CARD 2: Dimmer de intensidade -->
+    <div class="card">
+        <h2><span>🔆</span> Controle de Intensidade</h2>
+        <div class="dimmer-area">
+            <div class="dimmer-box" id="dimmerBox">
+                <span id="dimmerEmoji">🌑</span>
+            </div>
+            <div class="dimmer-controls">
+                <span>0%</span>
+                <input type="range" id="dimmerSlider" min="0" max="100" value="0" oninput="updateDimmer(this.value)">
+                <span>100%</span>
+            </div>
+            <span class="dimmer-value" id="dimmerLabel">Intensidade: 0%</span>
+        </div>
+    </div>
+
+    <!-- CARD 3: Mixer RGB com formato de lâmpada -->
+    <div class="card">
+        <h2><span>🌈</span> Física das Cores (RGB)</h2>
+        <div class="rgb-studio">
+            <div class="rgb-sliders">
+                <label>🔴 Vermelho <input type="range" id="redSlider" min="0" max="255" value="255" oninput="updateRGB()"></label>
+                <label>🟢 Verde   <input type="range" id="greenSlider" min="0" max="255" value="255" oninput="updateRGB()"></label>
+                <label>🔵 Azul    <input type="range" id="blueSlider" min="0" max="255" value="255" oninput="updateRGB()"></label>
+            </div>
+            <div class="rgb-preview-sphere" id="rgbSphere"></div>
+            <div class="flex-center">
+                <span class="rgb-hex" id="hexDisplay">#FFFFFF</span>
+                <span class="badge">luz branca = soma de todas</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 4: Prisma e espectro (interação divertida) -->
+    <div class="card">
+        <h2><span>🔮</span> Prisma: decomposição da luz</h2>
+        <div class="prisma-area">
+            <div class="prisma-box" id="prismaBox"></div>
+            <button class="prisma-btn" onclick="animatePrisma()">✨ Dispersar luz branca</button>
+            <p style="opacity:0.7; font-size:0.9rem;">A luz branca contém todas as cores do arco-íris.</p>
+        </div>
+    </div>
+
+    <!-- CARD 5: Fotossíntese (vida e luz) -->
+    <div class="card">
+        <h2><span>🌱</span> Luz & Vida: Fotossíntese</h2>
+        <div class="photosynthesis">
+            <span class="sun-icon" id="sunIcon">☀️</span>
+            <span style="font-size:2.2rem;">+</span>
+            <span class="plant" id="plantEmoji">🌿</span>
+        </div>
+        <div class="flex-center" style="margin-top: 16px;">
+            <button class="foto-btn" onclick="togglePhotosynthesis()">☀️ Ativar luz solar</button>
+            <button class="foto-btn" style="background:#4a4a4a;" onclick="resetPhotosynthesis()">⏹️ Parar</button>
+        </div>
+        <p style="margin-top: 12px; opacity:0.8;">A luz é essencial para as plantas produzirem seu alimento — e o nosso oxigênio.</p>
+    </div>
+
+    <!-- CARD extra: curiosidades -->
+    <div class="card">
+        <h2><span>⚡</span> Luz na tecnologia</h2>
+        <ul style="list-style-type: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 12px 20px;">
+            <li>🔹 <strong>Fibras ópticas</strong> — dados na velocidade da luz</li>
+            <li>🔹 <strong>Painéis solares</strong> — energia limpa do Sol</li>
+            <li>🔹 <strong>Lasers</strong> — cirurgias de precisão</li>
+            <li>🔹 <strong>LEDs</strong> — eficientes e duráveis</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        ⚡ A luz nos conecta — ciência, tecnologia e natureza.
+    </div>
+</div>
+
+<script>
+    // ---------- INTERAÇÃO 1: interruptor com cômodo ----------
+    const room = document.getElementById('roomScene');
+    const bulb = document.getElementById('bulbIcon');
+    const switchBtn = document.getElementById('switchBtn');
+
+    function toggleRoom() {
+        const isLit = room.classList.toggle('lit');
+        switchBtn.textContent = isLit ? '🔘 Desligar' : '🔘 Ligar';
+        switchBtn.classList.toggle('on', isLit);
+        // muda o ícone da lâmpada
+        bulb.textContent = isLit ? '💡' : '💡';
+    }
+
+    function resetRoom() {
+        room.classList.remove('lit');
+        switchBtn.textContent = '🔘 Ligar';
+        switchBtn.classList.remove('on');
+        bulb.textContent = '💡';
+    }
+
+    // ---------- INTERAÇÃO 2: Dimmer ----------
+    const dimmerBox = document.getElementById('dimmerBox');
+    const dimmerEmoji = document.getElementById('dimmerEmoji');
+    const dimmerLabel = document.getElementById('dimmerLabel');
+
+    function updateDimmer(value) {
+        const v = parseInt(value);
+        const intensity = Math.round((v / 100) * 255);
+        const color = `rgb(${intensity}, ${intensity}, ${intensity})`;
+        dimmerBox.style.backgroundColor = color;
+        dimmerLabel.textContent = `Intensidade: ${v}%`;
+        // emoji
+        if (v < 10) dimmerEmoji.textContent = '🌑';
+        else if (v < 40) dimmerEmoji.textContent = '🌒';
+        else if (v < 70) dimmerEmoji.textContent = '🌓';
+        else if (v < 95) dimmerEmoji.textContent = '🌔';
+        else dimmerEmoji.textContent = '☀️';
+    }
+
+    // ---------- INTERAÇÃO 3: RGB ----------
+    const redSlider = document.getElementById('redSlider');
+    const greenSlider = document.getElementById('greenSlider');
+    const blueSlider = document.getElementById('blueSlider');
+    const rgbSphere = document.getElementById('rgbSphere');
+    const hexDisplay = document.getElementById('hexDisplay');
+
+    function updateRGB() {
+        const r = parseInt(redSlider.value);
+        const g = parseInt(greenSlider.value);
+        const b = parseInt(blueSlider.value);
+        const rgb = `rgb(${r}, ${g}, ${b})`;
+        rgbSphere.style.backgroundColor = rgb;
+        rgbSphere.style.boxShadow = `0 0 50px ${rgb}`;
+        const hex = `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`.toUpperCase();
+        hexDisplay.textContent = hex;
+    }
+
+    // ---------- INTERAÇÃO 4: Prisma animado ----------
+    const prismaBox = document.getElementById('prismaBox');
+
+    function animatePrisma() {
+        prismaBox.style.transition = 'transform 0.4s, opacity 0.3s';
+        prismaBox.style.transform = 'scale(1.05)';
+        prismaBox.style.opacity = '1';
+        setTimeout(() => {
+            prismaBox.style.transform = 'scale(1)';
+        }, 400);
+        // efeito de "dispersão"
+        const colors = ['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#0088ff', '#8800ff', '#ff00ff'];
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i >= colors.length) { clearInterval(interval); return; }
+            prismaBox.style.background = `linear-gradient(90deg, ${colors.slice(0, i+1).join(', ')})`;
+            i++;
+        }, 120);
+        // reset depois
+        setTimeout(() => {
+            prismaBox.style.background = 'linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff00ff)';
+        }, 1200);
+    }
+
+    // ---------- INTERAÇÃO 5: Fotossíntese ----------
+    const sunIcon = document.getElementById('sunIcon');
+    const plantEmoji = document.getElementById('plantEmoji');
+    let photoInterval = null;
+
+    function togglePhotosynthesis() {
+        if (photoInterval) {
+            resetPhotosynthesis();
+            return;
+        }
+        sunIcon.classList.add('spin');
+        plantEmoji.classList.add('active');
+        // simula crescimento
+        let step = 0;
+        photoInterval = setInterval(() => {
+            step++;
+            if (step % 2 === 0) {
+                plantEmoji.textContent = ['🌿', '🌱', '🌳', '🌴', '🌵', '🌿'][step % 6];
             }
-        }
+            if (step > 20) {
+                plantEmoji.textContent = '🌳';
+                clearInterval(photoInterval);
+                photoInterval = null;
+                sunIcon.classList.remove('spin');
+            }
+        }, 400);
+    }
 
-        // Função do Dimmer (Interação 2)
-        function adjustBrightness(value) {
-            const box = document.getElementById('dimmerBox');
-            const text = document.getElementById('brightnessValue');
-            const colorValue = Math.round((value / 100) * 255);
-            box.style.backgroundColor = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
-            text.innerText = `Intensidade: ${value}%`;
+    function resetPhotosynthesis() {
+        if (photoInterval) {
+            clearInterval(photoInterval);
+            photoInterval = null;
         }
+        sunIcon.classList.remove('spin');
+        plantEmoji.classList.remove('active');
+        plantEmoji.textContent = '🌿';
+    }
 
-        // Função do Mixer RGB (Interação 3)
-        function updateRGB() {
-            const r = document.getElementById('red').value;
-            const g = document.getElementById('green').value;
-            const b = document.getElementById('blue').value;
-            const rgbBox = document.getElementById('rgbBox');
-            
-            rgbBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-            rgbBox.style.boxShadow = `0 0 20px rgba(${r}, ${g}, ${b}, 0.5)`;
-        }
-
-        // Inicializa a cor RGB na carga
-        updateRGB();
-    </script>
+    // inicia RGB com branco
+    updateRGB();
+    // dimmer inicial
+    updateDimmer(0);
+</script>
 </body>
 </html>
