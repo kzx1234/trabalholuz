@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Luz em Nossa Vida</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --card-bg: #1e1e1e;
+            --accent-color: #ffca28;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Interação 1: Lâmpada */
+        .interactive-room {
+            text-align: center;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #000;
+            transition: background-color 0.5s;
+        }
+
+        .bulb {
+            font-size: 80px;
+            filter: grayscale(100%);
+            transition: filter 0.3s, transform 0.2s;
+            display: inline-block;
+        }
+
+        .bulb.on {
+            filter: grayscale(0%) drop-shadow(0 0 35px #ffeb3b);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            border: none;
+            color: #000;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Interação 2: Dimmer */
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="range"] {
+            width: 80%;
+            cursor: pointer;
+        }
+
+        .light-box {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            background-color: rgb(0,0,0);
+            border: 1px solid #444;
+            transition: background-color 0.1s;
+        }
+
+        /* Interação 3: Cores RGB */
+        .rgb-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rgb-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>A Luz em Nossa Vida</h1>
+            <p>Explore como a energia luminosa transforma o nosso dia a dia.</p>
+        </header>
+
+        <div class="card">
+            <h2>O que é a Luz?</h2>
+            <p>A luz é uma forma de radiação eletromagnética visível ao olho humano. Ela viaja a incríveis <strong>300.000 km/s</strong> no vácuo e é a principal responsável por permitir que enxerguemos o mundo ao nosso redor, além de mover processos vitais como a fotossíntese nas plantas.</p>
+        </div>
+
+        <div class="card">
+            <h2>Laboratório 1: O Interruptor</h2>
+            <p>A invenção da luz elétrica mudou a história da humanidade. Clique no botão para acender ou apagar o ambiente abaixo:</p>
+            <div class="interactive-room" id="room">
+                <div class="bulb" id="bulb">💡</div>
+            </div>
+            <div style="text-align: center;">
+                <button onclick="toggleLight()">Ligar / Desligar</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Laboratório 2: Intensidade Luminosa</h2>
+            <p>A quantidade de luz afeta diretamente nossa percepção e conforto visual. Ajuste o controle abaixo para alterar o nível de iluminação:</p>
+            <div class="slider-container">
+                <div class="light-box" id="dimmerBox"></div>
+                <input type="range" id="brightness" min="0" max="100" value="0" oninput="adjustBrightness(this.value)">
+                <span id="brightnessValue">Intensidade: 0%</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Laboratório 3: A Física das Cores (RGB)</h2>
+            <p>A luz branca do Sol é a soma de todas as cores. Nas telas de computadores e TVs, usamos a mistura de três cores primárias de luz: Red (Vermelho), Green (Verde) e Blue (Azul).</p>
+            <div class="rgb-controls">
+                <label>Vermelho: <input type="range" id="red" min="0" max="255" value="255" oninput="updateRGB()"></label>
+                <label>Verde: <input type="range" id="green" min="0" max="255" value="255" oninput="updateRGB()"></label>
+                <label>Azul: <input type="range" id="blue" min="0" max="255" value="255" oninput="updateRGB()"></label>
+            </div>
+            <div class="rgb-preview" id="rgbBox"></div>
+        </div>
+
+        <div class="card">
+            <h2>A Luz na Tecnologia</h2>
+            <ul>
+                <li><strong>Fibras Ópticas:</strong> Transmitem dados de internet na velocidade da luz por fios de vidro.</li>
+                <li><strong>Painéis Solares:</strong> Convertem a luz do Sol diretamente em energia elétrica limpa.</li>
+                <li><strong>Medicina:</strong> Lasers de luz são usados em cirurgias de precisão e tratamentos de pele.</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Projeto criado para o GitHub Pages — A Ciência da Luz</p>
+        </footer>
+    </div>
+
+    <script>
+        // Função do Interruptor (Interação 1)
+        function toggleLight() {
+            const bulb = id = document.getElementById('bulb');
+            const room = document.getElementById('room');
+            bulb.classList.toggle('on');
+            
+            if (bulb.classList.contains('on')) {
+                room.style.backgroundColor = '#4a4a1a';
+            } else {
+                room.style.backgroundColor = '#000000';
+            }
+        }
+
+        // Função do Dimmer (Interação 2)
+        function adjustBrightness(value) {
+            const box = document.getElementById('dimmerBox');
+            const text = document.getElementById('brightnessValue');
+            const colorValue = Math.round((value / 100) * 255);
+            box.style.backgroundColor = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+            text.innerText = `Intensidade: ${value}%`;
+        }
+
+        // Função do Mixer RGB (Interação 3)
+        function updateRGB() {
+            const r = document.getElementById('red').value;
+            const g = document.getElementById('green').value;
+            const b = document.getElementById('blue').value;
+            const rgbBox = document.getElementById('rgbBox');
+            
+            rgbBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            rgbBox.style.boxShadow = `0 0 20px rgba(${r}, ${g}, ${b}, 0.5)`;
+        }
+
+        // Inicializa a cor RGB na carga
+        updateRGB();
+    </script>
+</body>
+</html>
